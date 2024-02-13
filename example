@@ -1,0 +1,23 @@
+https://medium.com/@amjad30nagori/what-is-dynamic-block-in-terraform-a-step-by-step-guide-b56b706edd47
+
+https://www.ciraltos.com/dynamic-blocks-in-terraform-with-azure/
+
+The above websites clearly explained clearly.
+
+Now, let me explain the logic of using the dynamic block:
+
+First you need to replace the “identity” with dynamic “identity” to let Terraform knows that this will be used dynamically.
+Next, configure the conditional expression. Let me break down the one we’ve used.:
+for_each = var.managed_identity_enable == true ? [1] : [ ]
+This conditional expression is a combination of ‘for_each’ loop with ‘if’ condition.
+
+if_condition — “var.managed_identity_enable == true ? [1] : [ ]”
+
+‘?’ operator signifies that the condition is true, and it returns ‘for_each = [1]’ (a single element).
+
+‘:’ operator represents the else case, which means the condition is false, and it returns ‘for_each = []’ (an empty list).
+
+‘for_each’ — Then, it executes the dynamic block for each element in the list. If ‘for_each’ is set to [1], it will execute the dynamic block; if it’s an empty list, it will skip the block.
+
+Now, Let’s see dynamic block in action:
+
